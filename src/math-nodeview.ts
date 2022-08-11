@@ -228,13 +228,9 @@ export class MathView implements NodeView, ICursorPosObserver {
 			this._mathRenderElt.classList.remove("parse-error");
 			this.dom.setAttribute("title", "");
 		} catch (err) {
-			if (err instanceof ParseError) {
-				console.error(err);
-				this._mathRenderElt.classList.add("parse-error");
-				this.dom.setAttribute("title", err.toString());
-			} else {
-				throw err;
-			}
+			console.error(err);
+			this._mathRenderElt.classList.add("parse-error");
+			this.dom.setAttribute("title", String(err));
 		}
 	}
 

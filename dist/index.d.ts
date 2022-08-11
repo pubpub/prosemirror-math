@@ -176,8 +176,9 @@ declare const mathSelectPlugin: ProsePlugin;
  *
  * @param mathNodeType An instance for either your math_inline or math_display
  *     NodeType.  Must belong to the same schema that your EditorState uses!
+ * @param initialText (optional) The initial source content for the math editor.
  */
-declare function insertMathCmd(mathNodeType: NodeType): Command;
+declare function insertMathCmd(mathNodeType: NodeType, initialText?: string): Command;
 ////////////////////////////////////////////////////////////////////////////////
 type TypedNode<T extends string, S extends Schema<T, any>> = ProseNode<S> & {
     type: NodeType<S> & {
