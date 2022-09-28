@@ -6,6 +6,7 @@ var prosemirrorState = require('prosemirror-state');
 var prosemirrorView = require('prosemirror-view');
 var prosemirrorTransform = require('prosemirror-transform');
 var prosemirrorKeymap = require('prosemirror-keymap');
+var prosemirrorHistory = require('prosemirror-history');
 var prosemirrorCommands = require('prosemirror-commands');
 var katex = require('katex');
 var prosemirrorModel = require('prosemirror-model');
@@ -259,6 +260,8 @@ class MathView {
             state: prosemirrorState.EditorState.create({
                 doc: this._node,
                 plugins: [prosemirrorKeymap.keymap({
+                        "Mod-z": () => prosemirrorHistory.undo(this._outerView.state, this._outerView.dispatch),
+                        "Mod-y": () => prosemirrorHistory.redo(this._outerView.state, this._outerView.dispatch),
                         "Tab": (state, dispatch) => {
                             if (dispatch) {
                                 dispatch(state.tr.insertText("\t"));

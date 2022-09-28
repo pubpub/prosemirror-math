@@ -2,6 +2,7 @@ import { TextSelection, EditorState, PluginKey, Plugin, NodeSelection } from 'pr
 import { EditorView, DecorationSet, Decoration } from 'prosemirror-view';
 import { StepMap } from 'prosemirror-transform';
 import { keymap } from 'prosemirror-keymap';
+import { undo, redo } from 'prosemirror-history';
 import { chainCommands, deleteSelection, newlineInCode } from 'prosemirror-commands';
 import katex from 'katex';
 import { Fragment, Schema } from 'prosemirror-model';
@@ -251,6 +252,8 @@ class MathView {
             state: EditorState.create({
                 doc: this._node,
                 plugins: [keymap({
+                        "Mod-z": () => undo(this._outerView.state, this._outerView.dispatch),
+                        "Mod-y": () => redo(this._outerView.state, this._outerView.dispatch),
                         "Tab": (state, dispatch) => {
                             if (dispatch) {
                                 dispatch(state.tr.insertText("\t"));

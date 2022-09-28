@@ -9,6 +9,7 @@ import { EditorState, Transaction, TextSelection, NodeSelection, PluginKey } fro
 import { NodeView, EditorView, Decoration } from "prosemirror-view";
 import { StepMap } from "prosemirror-transform";
 import { keymap } from "prosemirror-keymap";
+import { undo, redo } from "prosemirror-history";
 import { newlineInCode, chainCommands, deleteSelection, liftEmptyBlock, Command } from "prosemirror-commands";
 
 // katex
@@ -263,6 +264,16 @@ export class MathView implements NodeView, ICursorPosObserver {
 			state: EditorState.create({
 				doc: this._node,
 				plugins: [keymap({
+					"Mod-z": () =>
+						undo(
+							this._outerView.state,
+							this._outerView.dispatch
+					),
+					"Mod-y": () =>
+						redo(
+							this._outerView.state,
+							this._outerView.dispatch
+					),
 					"Tab": (state, dispatch) => {
 						if(dispatch){ dispatch(state.tr.insertText("\t")); }
 						return true;
